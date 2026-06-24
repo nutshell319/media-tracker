@@ -1,0 +1,24 @@
+{
+  "name": "media-tracker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --name",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.15.0",
+    "naive-ui": "^2.38.0",
+    "nuxt": "^3.12.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.15.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

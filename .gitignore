@@ -1,0 +1,12 @@
+.nuxt/
+.output/
+.data/
+node_modules/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env
+prisma/*.db
+prisma/*.db-journal
+*.log
