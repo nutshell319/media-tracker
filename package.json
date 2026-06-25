@@ -4,23 +4,18 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "build": "nuxt build",
-    "vercel-build": "prisma db push --accept-data-loss && nuxt build",
-    "generate": "nuxt generate",
+    "build": "npx prisma generate && npx prisma db push --accept-data-loss && npx nuxt build",
     "preview": "nuxt preview",
-    "postinstall": "prisma generate",
-    "prisma:migrate": "prisma migrate dev --name",
+    "postinstall": "npx prisma generate",
     "test": "vitest run"
   },
   "dependencies": {
-    "@libsql/client": "^0.3.0",
-    "@prisma/adapter-libsql": "^7.8.0",
     "@prisma/client": "^5.15.0",
     "naive-ui": "^2.38.0",
-    "nuxt": "^3.12.0"
+    "nuxt": "^3.12.0",
+    "prisma": "^5.15.0"
   },
   "devDependencies": {
-    "prisma": "^5.15.0",
     "typescript": "^5.4.0",
     "vitest": "^1.6.0"
   }
