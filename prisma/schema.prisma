@@ -1,10 +1,9 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,7 +14,7 @@ model Movie {
   coverUrl     String?
   doubanUrl    String
   doubanRating Float?   // 豆瓣评分
-  summary      String?  // 作品简介
+  summary      String?  @db.Text  // 作品简介（长文本）
   review       String?  // 个人短评
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
