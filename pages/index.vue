@@ -29,6 +29,12 @@
     </div>
     <n-empty v-else-if="searched" description="未找到相关作品" />
 
+    <!-- 排序栏 -->
+    <div v-if="movies.length" class="sort-bar">
+      <span class="sort-count">共 {{ movies.length }} 部</span>
+      <n-select v-model:value="sortBy" :options="sortOptions" size="small" style="width:140px" @update:value="fetchMovies" />
+    </div>
+
     <!-- 收藏列表 -->
     <div v-if="movies.length" class="movie-list">
       <div v-for="m in movies" :key="m.id" class="movie-card">
@@ -109,6 +115,18 @@ function proxyImage(url: string | null | undefined): string {
   return url
 }
 
+// 排序
+const sortBy = ref('date_desc')
+const sortOptions = [
+  { label: '🕐 最近添加', value: 'date_desc' },
+  { label: '🕐 最早添加', value: 'date_asc' },
+  { label: '⭐ 评分最高', value: 'rating_desc' },
+  { label: '⭐ 评分最低', value: 'rating_asc' },
+  { label: '📅 年份最新', value: 'year_desc' },
+  { label: '📅 年份最早', value: 'year_asc' },
+  { label: '🔤 名称 A-Z', value: 'title_asc' },
+]
+
 // 搜索
 const query = ref('')
 const loading = ref(false)
@@ -130,7 +148,7 @@ const movies = ref<any[]>([])
 
 async function fetchMovies() {
   try {
-    const data = await $fetch('/api/movies')
+    const data = await $fetch(`/api/movies?sort=${sortBy.value}`)
     movies.value = data.movies
   } catch { /* */ }
 }
@@ -252,7 +270,14 @@ onMounted(fetchMovies)
 .result-sub { color: #aaa59a; font-size: .8rem; display: block; }
 
 /* 卡片 */
-.movie-list { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+.sort-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 28px; padding-bottom: 12px;
+  border-bottom: 1px solid #1e1f2a;
+}
+.sort-count { font-size: .85rem; color: #aaa59a; }
+
+.movie-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
 .movie-card {
   display: flex; gap: 16px; background: #11131a; border: 1px solid #1e1f2a;
   border-radius: 10px; padding: 16px; transition: border-color .2s;
