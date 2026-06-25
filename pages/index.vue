@@ -98,9 +98,7 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
 
-definePageMeta({ ssr: false })
-
-const message = import.meta.client ? useMessage() : { success: () => {}, error: () => {}, warning: () => {} } as any
+const message = useMessage()
 
 /** 将豆瓣图片 URL 代理到本地端点，绕过防盗链 */
 function proxyImage(url: string | null | undefined): string {

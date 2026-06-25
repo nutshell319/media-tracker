@@ -1,16 +1,9 @@
 <template>
-  <ClientOnly>
-    <n-config-provider :theme-overrides="themeOverrides">
-      <n-message-provider>
-        <NuxtPage />
-      </n-message-provider>
-    </n-config-provider>
-    <template #fallback>
-      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#08090d;color:#b98eff;font-family:sans-serif;">
-        加载中...
-      </div>
-    </template>
-  </ClientOnly>
+  <n-config-provider :theme-overrides="themeOverrides">
+    <n-message-provider>
+      <NuxtPage />
+    </n-message-provider>
+  </n-config-provider>
 </template>
 
 <script setup lang="ts">
