@@ -15,7 +15,7 @@
     <!-- 搜索结果 -->
     <div v-if="results.length" class="results">
       <div v-for="r in results" :key="r.id" class="result-item" @click="addMovie(r)">
-        <img v-if="r.img" :src="r.img" class="result-cover" referrerpolicy="no-referrer" />
+        <img v-if="r.img" :src="proxyImage(r.img)" class="result-cover" />
         <div v-else class="result-cover-placeholder">{{ r.title[0] }}</div>
         <div>
           <span class="result-title">{{ r.title }}</span>
@@ -28,7 +28,7 @@
     <!-- 收藏列表 -->
     <div v-if="movies.length" class="movie-list">
       <div v-for="m in movies" :key="m.id" class="movie-card">
-        <img v-if="m.coverUrl" :src="m.coverUrl" class="mc-cover" @click="openDouban(m)" referrerpolicy="no-referrer" />
+        <img v-if="m.coverUrl" :src="proxyImage(m.coverUrl)" class="mc-cover" @click="openDouban(m)" />
         <div v-else class="mc-cover-placeholder" @click="openDouban(m)">{{ m.title[0] }}</div>
         <div class="mc-body">
           <div class="mc-top-row">
@@ -57,7 +57,7 @@
         </div>
         <template v-else>
           <div class="preview" v-if="pendingMovie.title">
-            <img v-if="pendingMovie.img" :src="pendingMovie.img" class="preview-img" referrerpolicy="no-referrer" />
+            <img v-if="pendingMovie.img" :src="proxyImage(pendingMovie.img)" class="preview-img" />
             <div v-else class="preview-img-placeholder">{{ pendingMovie.title[0] }}</div>
             <div>
               <div class="preview-title">{{ pendingMovie.title }} <span v-if="pendingMovie.year" class="preview-year">({{ pendingMovie.year }})</span></div>
@@ -70,7 +70,7 @@
       <!-- 编辑模式 -->
       <template v-else>
         <div v-if="editTarget.coverUrl" class="preview">
-          <img :src="editTarget.coverUrl" class="preview-img" referrerpolicy="no-referrer" />
+          <img :src="proxyImage(editTarget.coverUrl)" class="preview-img" />
           <div>
             <div class="preview-title">{{ editTarget.title }} <span v-if="editTarget.year" class="preview-year">({{ editTarget.year }})</span></div>
             <div v-if="editTarget.doubanRating" class="preview-rating">豆瓣评分 ⭐ {{ editTarget.doubanRating }}</div>
@@ -97,6 +97,15 @@ import { useMessage } from 'naive-ui'
 definePageMeta({ ssr: false })
 
 const message = import.meta.client ? useMessage() : { success: () => {}, error: () => {}, warning: () => {} } as any
+
+/** 将豆瓣图片 URL 代理到本地端点，绕过防盗链 */
+function proxyImage(url: string | null | undefined): string {
+  if (!url) return ''
+  if (url.includes('doubanio.com') || url.includes('douban.com')) {
+    return `/api/douban/image?url=${encodeURIComponent(url)}`
+  }
+  return url
+}
 
 // 搜索
 const query = ref('')
