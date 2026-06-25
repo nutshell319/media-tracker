@@ -5,15 +5,14 @@ export default defineEventHandler(async (event) => {
   if (!id) throw createError({ statusCode: 400, statusMessage: '缺少 ID' })
 
   const body = await readBody(event)
-  const { score, review } = body
+  const { doubanRating, summary, review } = body
 
-  const movie = await prisma.movie.update({
-    where: { id },
-    data: {
-      score: score ?? null,
-      review: review ?? null
-    }
-  })
+  const data: Record<string, unknown> = {}
+  if (doubanRating !== undefined) data.doubanRating = doubanRating ?? null
+  if (summary !== undefined) data.summary = summary ?? null
+  if (review !== undefined) data.review = review ?? null
+
+  const movie = await prisma.movie.update({ where: { id }, data })
 
   return { movie }
 })

@@ -2,7 +2,7 @@ import { prisma } from '~/server/utils/prisma'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { title, year, coverUrl, doubanUrl, score, review } = body
+  const { title, year, coverUrl, doubanUrl, doubanRating, summary, review } = body
 
   if (!title || !doubanUrl) {
     throw createError({ statusCode: 400, statusMessage: '标题和豆瓣链接为必填项' })
@@ -20,7 +20,8 @@ export default defineEventHandler(async (event) => {
       year: year || null,
       coverUrl: coverUrl || null,
       doubanUrl,
-      score: score || null,
+      doubanRating: doubanRating || null,
+      summary: summary || null,
       review: review || null
     }
   })

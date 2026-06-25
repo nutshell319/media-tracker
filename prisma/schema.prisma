@@ -8,13 +8,14 @@ datasource db {
 }
 
 model Movie {
-  id        String   @id @default(cuid())
-  title     String
-  year      Int?
-  coverUrl  String?
-  doubanUrl String
-  score     Int?     // 1-5
-  review    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  title        String
+  year         Int?
+  coverUrl     String?
+  doubanUrl    String
+  doubanRating Float?   // 豆瓣评分
+  summary      String?  // 作品简介
+  review       String?  // 个人短评
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
