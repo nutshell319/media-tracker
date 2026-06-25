@@ -5,5 +5,13 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: false
+  },
+  vite: {
+    server: {
+      allowedHosts: true  // 允许公网隧道域名访问
+    }
+  },
+  nitro: {
+    preset: 'vercel'
   }
 })
